@@ -1,12 +1,18 @@
 pipeline {
-    agent {
-        docker { image 'node:18' } 
-    }
+    agent any
 
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+
+        stage('Install pnpm') {
+            steps {
+                // installer pnpm si pas déjà présent
+                sh 'corepack enable'       // pnpm inclus depuis Node 16+
+                sh 'corepack prepare pnpm@latest --activate'
             }
         }
 
